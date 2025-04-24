@@ -24,17 +24,15 @@ export class SignupPage  {
   showSuccessAlert = false;
 
   constructor(
-    private userService: UserService,
-    private router: Router,
-    private storage: Storage
-  ) { }
+    //private userService: UserService,
+    private router: Router
+  ) {}
 
-  async signUp() {
+  signUp() {
     try {
-      await this.userService.registerUser(this.user);
+      //this.userService.registerUser(this.user);
       this.showSuccessAlert = true;
       
-      // Optional: Auto-navigate after 2 seconds
       setTimeout(() => {
         this.router.navigate(['/home']);
       }, 2000);
@@ -44,5 +42,6 @@ export class SignupPage  {
     }
   }
 
+  
 }
 

@@ -1,3 +1,4 @@
+// user.service.ts
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
@@ -5,21 +6,32 @@ import { Storage } from '@ionic/storage-angular';
   providedIn: 'root'
 })
 export class UserService {
-  private _storage: Storage | null = null;
+  private storageInitialized = false;
+  private readonly USERS_KEY = 'users';
 
-  constructor(private storage: Storage) {
-    this.init();
-  }
+  constructor(private storage: Storage) {}
 
   async init() {
-    this._storage = await this.storage.create();
+    if (!this.storageInitialized) {
+      await this.storage.create();
+      this.storageInitialized = true;
+    }
   }
 
   async registerUser(userData: any) {
-    await this._storage?.set('user', userData);
+    await this.init();
+    const users = await this.getUsers();
+    users.push(userData);
+    await this.storage.set(this.USERS_KEY, users);
   }
 
-  async getUser() {
-    return await this._storage?.get('user');
+  async getUsers(): Promise<any[]> {
+    await this.init();
+    return (await this.storage.get(this.USERS_KEY)) || [];
+  }
+
+  async clearUsers() {
+    await this.init();
+    await this.storage.remove(this.USERS_KEY);
   }
 }
