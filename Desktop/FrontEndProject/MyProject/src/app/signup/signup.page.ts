@@ -1,20 +1,48 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar,IonButton,IonBackButton,IonButtons,IonCardContent,IonCard,IonCardHeader,IonCardTitle,IonItem,IonLabel,IonAlert} from '@ionic/angular/standalone';
+import { Storage } from '@ionic/storage-angular';
+import { UserService } from '../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,IonButton,IonBackButton,IonButtons,IonCardContent,IonCard,IonCardHeader,IonCardTitle,IonItem,IonContent,IonLabel,IonAlert]
 })
-export class SignupPage implements OnInit {
+export class SignupPage  {
+  
+  user = {
+    username: '',
+    email: '',
+    password: ''
+  };
 
-  constructor() { }
+  showSuccessAlert = false;
 
-  ngOnInit() {
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private storage: Storage
+  ) { }
+
+  async signUp() {
+    try {
+      await this.userService.registerUser(this.user);
+      this.showSuccessAlert = true;
+      
+      // Optional: Auto-navigate after 2 seconds
+      setTimeout(() => {
+        this.router.navigate(['/home']);
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Registration error:', error);
+    }
   }
 
 }
+

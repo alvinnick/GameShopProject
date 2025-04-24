@@ -6,14 +6,14 @@ import { IonCard, IonCardContent, IonCardHeader, IonCardSubtitle,IonCardTitle, I
 import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { cart, trash, cartOutline } from 'ionicons/icons';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
-  imports: [ IonCard, IonCardContent, IonCardHeader, IonCardSubtitle,IonCardTitle, CommonModule, IonHeader, IonToolbar,IonTitle, IonContent, IonButton, IonIcon, IonButtons,IonBadge, IonModal, IonList, IonItem, IonLabel,IonThumbnail, IonNote
-  ] // Modules imported for use in this component
+  imports: [ IonCard, IonCardContent, IonCardHeader,IonCardTitle, CommonModule, IonHeader, IonToolbar,IonTitle, IonContent, IonButton, IonIcon, IonButtons,IonBadge,RouterModule ] // Modules imported for use in this component
 })
 export class HomePage implements OnInit {
   games: any[] = [];
@@ -49,6 +49,10 @@ export class HomePage implements OnInit {
     this.router.navigate(['/game-details'], { 
       state: { game } 
     });
+  }
+
+  goToSignup() {
+    this.router.navigate(['/signup']);
   }
 
 }
