@@ -1,34 +1,48 @@
+<!-- Page header with a translucent background -->
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <!-- Back button to return to the home page -->
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
+    <!-- Page title -->
     <ion-title>Game Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<!-- Main content area with fullscreen enabled and padding -->
 <ion-content [fullscreen]="true" class="ion-padding">
+
+  <!-- Display game details only if the 'game' object is available -->
   <div *ngIf="game" class="game-details-container">
+
+    <!-- Game thumbnail image -->
     <ion-img [src]="game.thumb" class="game-image"></ion-img>
     
+    <!-- Game title -->
     <h1>{{game.title}}</h1>
     
+    <!-- Grid layout for pricing and ratings information -->
     <ion-grid>
       <ion-row>
+        <!-- Pricing column -->
         <ion-col size="6">
           <ion-card>
             <ion-card-header>
               <ion-card-title>Pricing</ion-card-title>
             </ion-card-header>
             <ion-card-content>
+              <!-- Sale price -->
               <ion-item>
                 <ion-label>Sale Price:</ion-label>
                 <ion-note slot="end" color="danger">{{game.salePrice | currency}}</ion-note>
               </ion-item>
+              <!-- Normal price -->
               <ion-item>
                 <ion-label>Normal Price:</ion-label>
                 <ion-note slot="end">{{game.normalPrice | currency}}</ion-note>
               </ion-item>
+              <!-- Savings percentage if the game is on sale -->
               <ion-item *ngIf="game.isOnSale">
                 <ion-label>Savings:</ion-label>
                 <ion-note slot="end" color="success">{{game.savings | percent}}</ion-note>
@@ -37,24 +51,29 @@
           </ion-card>
         </ion-col>
 
+        <!-- Ratings column -->
         <ion-col size="6">
           <ion-card>
             <ion-card-header>
               <ion-card-title>Ratings</ion-card-title>
             </ion-card-header>
             <ion-card-content>
+              <!-- Metacritic score if available -->
               <ion-item *ngIf="game.metacriticScore">
                 <ion-label>Metacritic:</ion-label>
                 <ion-note slot="end">{{game.metacriticScore}}/100</ion-note>
               </ion-item>
+              <!-- Steam rating text and percentage -->
               <ion-item>
                 <ion-label>Steam Rating:</ion-label>
                 <ion-note slot="end">{{game.steamRatingText}} ({{game.steamRatingPercent}}%)</ion-note>
               </ion-item>
+              <!-- Number of votes -->
               <ion-item>
                 <ion-label>Votes:</ion-label>
                 <ion-note slot="end">{{game.steamRatingCount | number}}</ion-note>
               </ion-item>
+              <!-- Deal rating -->
               <ion-item>
                 <ion-label>Deal Rating:</ion-label>
                 <ion-note slot="end">{{game.dealRating}}/10</ion-note>
@@ -64,6 +83,7 @@
         </ion-col>
       </ion-row>
 
+      <!-- Additional game information -->
       <ion-row>
         <ion-col>
           <ion-card>
@@ -71,22 +91,27 @@
               <ion-card-title>Additional Info</ion-card-title>
             </ion-card-header>
             <ion-card-content>
+              <!-- Release date -->
               <ion-item>
                 <ion-label>Release Date:</ion-label>
                 <ion-note slot="end">{{game.releaseDate | date}}</ion-note>
               </ion-item>
+              <!-- Last updated date -->
               <ion-item>
                 <ion-label>Last Updated:</ion-label>
                 <ion-note slot="end">{{game.lastChange | date}}</ion-note>
               </ion-item>
+              <!-- Store ID -->
               <ion-item>
                 <ion-label>Store ID:</ion-label>
                 <ion-note slot="end">{{game.storeID}}</ion-note>
               </ion-item>
+              <!-- Game ID -->
               <ion-item>
                 <ion-label>Game ID:</ion-label>
                 <ion-note slot="end">{{game.gameID}}</ion-note>
               </ion-item>
+              <!-- Steam App ID if available -->
               <ion-item *ngIf="game.steamAppID">
                 <ion-label>Steam App ID:</ion-label>
                 <ion-note slot="end">{{game.steamAppID}}</ion-note>
@@ -97,8 +122,10 @@
       </ion-row>
     </ion-grid>
 
+    <!-- Button to add the game to the cart -->
     <ion-button expand="block" color="primary" (click)="addToCart(game)">
       Add to Cart
     </ion-button>
+
   </div>
 </ion-content>

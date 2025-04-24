@@ -1,3 +1,4 @@
+<!-- Header with a translucent background and a back button -->
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -7,32 +8,40 @@
   </ion-toolbar>
 </ion-header>
 
+<!-- Main content area with padding and fullscreen enabled -->
 <ion-content [fullscreen]="true" class="ion-padding">
+
+  <!-- Display the list of cart items if there are any -->
   <ion-list *ngIf="cartItems.length > 0; else emptyCart">
+    
+    <!-- Loop through each item in the cart -->
     <ion-item *ngFor="let item of cartItems">
       <ion-thumbnail slot="start">
-        <img [src]="item.thumb" />
+        <img [src]="item.thumb" /> <!-- Product thumbnail -->
       </ion-thumbnail>
       <ion-label>
-        <h3>{{item.title}}</h3>
-        <p>{{item.salePrice | currency}}</p>
-        <p>Quantity: {{item.quantity}}</p>
+        <h3>{{item.title}}</h3> <!-- Product title -->
+        <p>{{item.salePrice | currency}}</p> <!-- Product price -->
+        <p>Quantity: {{item.quantity}}</p> <!-- Quantity in cart -->
       </ion-label>
       <ion-button slot="end" fill="clear" color="danger" (click)="removeFromCart(item)">
-        <ion-icon name="trash"></ion-icon>
+        <ion-icon name="trash"></ion-icon> <!-- Remove item button -->
       </ion-button>
     </ion-item>
     
+    <!-- Display the total cart value -->
     <ion-item>
       <ion-label><strong>Total:</strong></ion-label>
       <ion-note slot="end"><strong>{{getCartTotal() | currency}}</strong></ion-note>
     </ion-item>
 
-    <ion-button expand="block" color="primary" >
+    <!-- Button to proceed to the checkout process -->
+    <ion-button expand="block" color="primary">
       Proceed to Checkout
     </ion-button>
   </ion-list>
   
+  <!-- Template displayed when the cart is empty -->
   <ng-template #emptyCart>
     <div class="empty-cart">
       <ion-icon name="cart-outline" size="large"></ion-icon>
@@ -40,4 +49,5 @@
       <ion-button fill="clear" (click)="goBack()">Continue Shopping</ion-button>
     </div>
   </ng-template>
+  
 </ion-content>
