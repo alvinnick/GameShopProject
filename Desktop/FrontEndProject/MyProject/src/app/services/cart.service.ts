@@ -11,7 +11,7 @@ export class CartService {
   constructor() {}
 
   addToCart(game: any) {
-    const currentItems = this.cartItemsSubject.value;
+    const currentItems = [...this.cartItemsSubject.value]; // Create new array
     const existingItem = currentItems.find(item => item.id === game.id);
     
     if (existingItem) {
@@ -20,11 +20,11 @@ export class CartService {
       currentItems.push({...game, quantity: 1});
     }
     
-    this.cartItemsSubject.next([...currentItems]);
+    this.cartItemsSubject.next(currentItems); // Emit the new array
   }
 
   removeFromCart(item: any) {
-    const currentItems = this.cartItemsSubject.value;
+    const currentItems = [...this.cartItemsSubject.value]; // Create new array
     const index = currentItems.findIndex(cartItem => cartItem.id === item.id);
     
     if (index !== -1) {
@@ -33,12 +33,12 @@ export class CartService {
       } else {
         currentItems.splice(index, 1);
       }
-      this.cartItemsSubject.next([...currentItems]);
+      this.cartItemsSubject.next(currentItems); // Emit the new array
     }
   }
 
   getCartItems() {
-    return this.cartItemsSubject.value;
+    return [...this.cartItemsSubject.value]; // Return a copy
   }
 
   getCartTotal() {

@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { addIcons } from 'ionicons';
 import { cart, trash, cartOutline } from 'ionicons/icons';
 import { RouterModule } from '@angular/router';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +36,7 @@ export class HomePage implements OnInit {
     this.cartService.cartItems$.subscribe(items => {
       this.cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
     });
+    
   }
 
   addToCart(game: any) {
@@ -43,6 +45,7 @@ export class HomePage implements OnInit {
 
   navigateToCart() {
     this.router.navigate(['/cart']);
+    
   }
 
   viewDescription(game: any) {
@@ -53,6 +56,18 @@ export class HomePage implements OnInit {
 
   goToSignup() {
     this.router.navigate(['/signup']);
+  }
+  async shareGame(game: any) {
+    try {
+      await Share.share({
+        title: game.title,
+        text: `Check out "${game.title}" for $${game.salePrice}`,
+        url: game.thumb, // or your game URL
+        dialogTitle: 'Share this game'
+      });
+    } catch (error) {
+      console.log('User cancelled share', error);
+    }
   }
 
 }

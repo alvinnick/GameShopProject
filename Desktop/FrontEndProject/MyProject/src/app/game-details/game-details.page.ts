@@ -9,6 +9,7 @@ import {
 } from '@ionic/angular/standalone';
 import { CommonModule, DatePipe } from '@angular/common';
 import { CurrencyPipe, PercentPipe } from '@angular/common';
+import { Share } from '@capacitor/share';
 
 @Component({
   selector: 'app-game-details',
@@ -41,6 +42,19 @@ export class GameDetailsPage implements OnInit {
   addToCart(game: any) {
     this.cartService.addToCart(game);
     this.router.navigate(['/cart']);
+  }
+
+  async shareGame() {
+    try {
+      await Share.share({
+        title: this.game.title,
+        text: `Check out ${this.game.title} for only $${this.game.salePrice}`,
+        url: this.game.thumb, // or your game's URL
+        dialogTitle: 'Share this game'
+      });
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
   }
 }
 

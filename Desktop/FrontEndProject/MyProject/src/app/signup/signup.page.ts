@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,IonButton,IonBackButton,IonButtons,IonCardContent,IonCard,IonCardHeader,IonCardTitle,IonItem,IonContent,IonLabel,IonAlert]
 })
-export class SignupPage  {
+export class SignupPage implements OnInit{
   
   user = {
     username: '',
@@ -30,9 +30,10 @@ export class SignupPage  {
 
   signUp() {
     try {
+
       //this.userService.registerUser(this.user);
       this.showSuccessAlert = true;
-      
+
       setTimeout(() => {
         this.router.navigate(['/home']);
       }, 2000);
@@ -41,6 +42,10 @@ export class SignupPage  {
       console.error('Registration error:', error);
     }
   }
+
+    // Lifecycle hook triggered on component initialization
+    ngOnInit() {
+    }
 
   
 }
