@@ -19,7 +19,8 @@ export const routes: Routes = [
     loadComponent: () => import('./cart/cart.page').then( m => m.CartPage)
   },
   {
-    path: 'checkout',
-    loadComponent: () => import('./checkout/checkout.page').then( m => m.CheckoutPage)
+    path: 'signup',
+    loadComponent: () => import('./signup/signup.page').then( m => m.SignupPage)
   },
+ 
 ];

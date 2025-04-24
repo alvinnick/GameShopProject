@@ -43,10 +43,6 @@ export class CartPage implements OnInit {
     return this.cartService.getCartTotal();
   }
 
-  checkout() {
-    this.router.navigate(['/checkout']);
-  }
-
   goBack() {
     this.router.navigate(['/home']);
   }

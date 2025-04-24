@@ -28,7 +28,7 @@
       <ion-note slot="end"><strong>{{getCartTotal() | currency}}</strong></ion-note>
     </ion-item>
 
-    <ion-button expand="block" color="primary" (click)="checkout()">
+    <ion-button expand="block" color="primary" >
       Proceed to Checkout
     </ion-button>
   </ion-list>
@@ -36,7 +36,7 @@
   <ng-template #emptyCart>
     <div class="empty-cart">
       <ion-icon name="cart-outline" size="large"></ion-icon>
-      <p>Your cart is empty</p>
+      <p>Your cart is empty add item to proceed to checkout</p>
       <ion-button fill="clear" (click)="goBack()">Continue Shopping</ion-button>
     </div>
   </ng-template>
