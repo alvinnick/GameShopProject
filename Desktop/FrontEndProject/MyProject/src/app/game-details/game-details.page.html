@@ -1,0 +1,104 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Game Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div *ngIf="game" class="game-details-container">
+    <ion-img [src]="game.thumb" class="game-image"></ion-img>
+    
+    <h1>{{game.title}}</h1>
+    
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Pricing</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item>
+                <ion-label>Sale Price:</ion-label>
+                <ion-note slot="end" color="danger">{{game.salePrice | currency}}</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label>Normal Price:</ion-label>
+                <ion-note slot="end">{{game.normalPrice | currency}}</ion-note>
+              </ion-item>
+              <ion-item *ngIf="game.isOnSale">
+                <ion-label>Savings:</ion-label>
+                <ion-note slot="end" color="success">{{game.savings | percent}}</ion-note>
+              </ion-item>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Ratings</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item *ngIf="game.metacriticScore">
+                <ion-label>Metacritic:</ion-label>
+                <ion-note slot="end">{{game.metacriticScore}}/100</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label>Steam Rating:</ion-label>
+                <ion-note slot="end">{{game.steamRatingText}} ({{game.steamRatingPercent}}%)</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label>Votes:</ion-label>
+                <ion-note slot="end">{{game.steamRatingCount | number}}</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label>Deal Rating:</ion-label>
+                <ion-note slot="end">{{game.dealRating}}/10</ion-note>
+              </ion-item>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Additional Info</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-item>
+                <ion-label>Release Date:</ion-label>
+                <ion-note slot="end">{{game.releaseDate | date}}</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label>Last Updated:</ion-label>
+                <ion-note slot="end">{{game.lastChange | date}}</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label>Store ID:</ion-label>
+                <ion-note slot="end">{{game.storeID}}</ion-note>
+              </ion-item>
+              <ion-item>
+                <ion-label>Game ID:</ion-label>
+                <ion-note slot="end">{{game.gameID}}</ion-note>
+              </ion-item>
+              <ion-item *ngIf="game.steamAppID">
+                <ion-label>Steam App ID:</ion-label>
+                <ion-note slot="end">{{game.steamAppID}}</ion-note>
+              </ion-item>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-button expand="block" color="primary" (click)="addToCart(game)">
+      Add to Cart
+    </ion-button>
+  </div>
+</ion-content>

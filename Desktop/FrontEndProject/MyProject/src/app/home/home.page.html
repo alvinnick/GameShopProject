@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar> 
+    <ion-title>
+      Video Game Shop
+    </ion-title>
+    <!-- Add cart icon button to the header -->
+    <ion-buttons slot="end">
+      <ion-button (click)="navigateToCart()">
+        <ion-icon slot="icon-only" name="cart"></ion-icon>
+        <!-- Badge showing item count -->
+        <ion-badge color="danger" *ngIf="cartItemCount > 0">{{cartItemCount}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card *ngFor="let game of games">
+    <img alt="game image" src={{game.thumb}} class="gameThumb" />
+    <ion-card-header>
+      <ion-card-title>{{game.title}}</ion-card-title>
+      <ion-title id="priceTag">{{game.salePrice}}</ion-title>
+    </ion-card-header>
+    
+    <ion-card-content>
+      <div class="buttons-container">
+        <ion-button expand="block" color="secondary" (click)="viewDescription(game)">
+          Description
+        </ion-button>
+        <ion-button expand="block" color="primary" (click)="addToCart(game)">
+          Add to Cart
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
