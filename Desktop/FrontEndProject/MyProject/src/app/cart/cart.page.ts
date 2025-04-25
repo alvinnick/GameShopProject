@@ -49,8 +49,9 @@ export class CartPage implements OnInit {
 
   // Called when the component initializes
   ngOnInit() {
-    // Load items from the cart service
-    this.cartItems = this.cartService.getCartItems();
+    this.cartService.cartItems$.subscribe(items => {
+      this.cartItems = items;
+    });
   }
 
   // Removes an item from the cart and refreshes the list

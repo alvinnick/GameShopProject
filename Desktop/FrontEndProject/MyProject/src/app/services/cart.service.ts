@@ -2,65 +2,78 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root' // Makes the service available app-wide
+  providedIn: 'root' // Makes this service available app-wide
 })
 export class CartService {
-  // BehaviorSubject to hold and emit the current cart items
+  // BehaviorSubject to hold the cart state and emit changes
   private cartItemsSubject = new BehaviorSubject<any[]>([]);
-  // Observable to expose cart data to components
+  
+  // Observable that components can subscribe to for cart updates
   cartItems$ = this.cartItemsSubject.asObservable();
 
-  constructor() {}
-
-  // Adds a game to the cart
+  //Adds a game to the cart or increments quantity if already exists
   addToCart(game: any) {
-    const currentItems = [...this.cartItemsSubject.value]; // Clone current cart items
-    const existingItem = currentItems.find(item => item.id === game.id); // Check if item exists
-
+    // Get current cart items (creating a new array reference)
+    const currentItems = [...this.cartItemsSubject.value];
+    
+    // Check if game already exists in cart using gameID
+    const existingItem = currentItems.find(item => item.gameID === game.gameID);
+    
     if (existingItem) {
-      // If it exists, just increase the quantity
+      // Increment quantity if game already in cart
       existingItem.quantity++;
     } else {
-      // If not, add it with quantity 1
-      currentItems.push({ ...game, quantity: 1 });
+      // Add new game to cart with initial quantity of 1
+      currentItems.push({
+        ...game, // Spread operator copies all game properties
+        quantity: 1 // Add quantity property
+      });
     }
-
-    // Update the cart items
+    
+    // Emit the new cart state to all subscribers
     this.cartItemsSubject.next(currentItems);
   }
 
-  // Removes one quantity or the whole item from the cart
-  removeFromCart(item: any) {
-    const currentItems = [...this.cartItemsSubject.value]; // Clone current cart items
-    const index = currentItems.findIndex(cartItem => cartItem.id === item.id); // Find item index
-
-    if (index !== -1) {
+   // Removes a game from cart or decrements quantity
+  removeFromCart(game: any) {
+    // Get current cart items (creating a new array reference)
+    const currentItems = [...this.cartItemsSubject.value];
+    
+    // Find index of game in cart using gameID
+    const index = currentItems.findIndex(item => item.gameID === game.gameID);
+    
+    if (index !== -1) { // If game exists in cart
       if (currentItems[index].quantity > 1) {
-        // Decrease quantity if more than one
+        // Decrement quantity if more than 1
         currentItems[index].quantity--;
       } else {
-        // Remove item if quantity is 1
+        // Remove item completely if quantity is 1
         currentItems.splice(index, 1);
       }
-      // Update the cart items
+      // Emit the new cart state
       this.cartItemsSubject.next(currentItems);
     }
   }
 
-  // Returns a shallow copy of the current cart items
+   // Gets current cart items
   getCartItems() {
+    // Return copy of cart items to prevent direct modification
     return [...this.cartItemsSubject.value];
   }
 
-  // Calculates total price of items in the cart
+    
+    //Calculates total price of all items in cart
+    //Total cart value as number
+
   getCartTotal() {
     return this.cartItemsSubject.value.reduce(
-      (total, item) => total + (parseFloat(item.salePrice) * item.quantity), 0
+      (total, item) => total + (parseFloat(item.salePrice) * item.quantity, 0)
     );
   }
 
-  // Clears all items from the cart
+  //Clears all items from cart
   clearCart() {
+    // Emit empty array to clear cart
     this.cartItemsSubject.next([]);
   }
 }
